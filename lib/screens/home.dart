@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waterflow_intern/api/quiz_api.dart';
+import 'package:waterflow_intern/models/quiz.dart';
 import 'package:waterflow_intern/screens/quiz.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,17 +13,25 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _nameController = TextEditingController();
   String? _errorText;
+  late List<Quiz> quizQuestions;
 
   @override
   void initState() {
     super.initState();
-    QuizApi.getQuizQuestions();
+    _intializeQuizList();
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     super.dispose();
+  }
+
+  void _intializeQuizList() async {
+    List<Quiz> questions = await QuizApi.getQuizQuestions();
+    setState(() {
+      quizQuestions = questions;
+    });
   }
 
   void _validateName() {
@@ -43,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _startQuiz() {
+    // _validateName();
     final bool isValid = _errorText == null;
     if (!isValid) {
       return;
@@ -50,7 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const QuizScreen(),
+        builder: (context) => QuizScreen(
+          quizQuestions: quizQuestions,
+        ),
       ),
     );
   }

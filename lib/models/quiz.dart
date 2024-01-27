@@ -10,4 +10,10 @@ class Quiz {
   final List<String> answerOptions;
   final String correctAnswer;
   final String id;
+
+  List<String> get shuffledOptions {
+    final List<String> shuffledList = List.of(answerOptions);
+    shuffledList.shuffle();
+    return shuffledList;
+  }
 }

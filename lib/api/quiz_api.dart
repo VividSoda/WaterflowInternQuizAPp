@@ -10,7 +10,7 @@ class QuizApi {
     'Content-Type': 'application/json',
   };
 
-  static Future<void> getQuizQuestions() async {
+  static Future<List<Quiz>> getQuizQuestions() async {
     try {
       final response = await http.get(
         quizUrl,
@@ -40,9 +40,10 @@ class QuizApi {
         // print(question.id);
         quizQuestions.add(question);
       }
+      return quizQuestions;
     } catch (error) {
       print(error);
-      return;
+      return [];
     }
   }
 }

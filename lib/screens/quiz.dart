@@ -2,10 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:waterflow_intern/models/quiz.dart';
 import 'package:waterflow_intern/widgets/answer_tile.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+  const QuizScreen({
+    super.key,
+    required this.quizQuestions,
+  });
+
+  final List<Quiz> quizQuestions;
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -14,6 +20,7 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   int _seconds = 60;
   late Timer _quizTimer;
+  int _currentQuestionIndex = 0;
 
   @override
   void initState() {
@@ -142,7 +149,17 @@ class _QuizScreenState extends State<QuizScreen> {
                     SizedBox(
                       height: scrHeight * 0.07,
                     ),
-                    AnswerTile(),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        return AnswerTile(
+                          option: widget.quizQuestions[_currentQuestionIndex]
+                              .answerOptions[index],
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
