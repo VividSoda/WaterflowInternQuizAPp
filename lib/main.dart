@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:waterflow_intern/home.dart';
+import 'package:waterflow_intern/screens/home.dart';
 
 void main() {
   runApp(const MyApp());
