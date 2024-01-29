@@ -219,7 +219,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     width: double.infinity,
                     margin: const EdgeInsets.all(20),
                     child: ElevatedButton(
-                      onPressed: _currentQuestionIndex > 9
+                      onPressed: _currentQuestionIndex >= 9
                           ? _finishQuiz
                           : _nextQuestion,
                       style: ElevatedButton.styleFrom(
@@ -228,7 +228,7 @@ class _QuizScreenState extends State<QuizScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 15),
                       ),
                       child: Text(
-                        _currentQuestionIndex > 9 ? "Finish" : "Next",
+                        _currentQuestionIndex >= 9 ? "Finish" : "Next",
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
