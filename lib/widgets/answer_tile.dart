@@ -8,14 +8,16 @@ class AnswerTile extends StatelessWidget {
     required this.groutValue,
     required this.answerOption,
     required this.isCorrect,
+    required this.showCorrect,
   }) : isSelected = value == groutValue;
 
   final int value;
-  final void Function(int? selectedOption)? selectAnswer;
+  final void Function(int? selectedOption) selectAnswer;
   final int groutValue;
   final String answerOption;
   final bool isSelected;
   final bool isCorrect;
+  final bool showCorrect;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,11 @@ class AnswerTile extends StatelessWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: !isSelected
-                ? Colors.white
+                ? !showCorrect
+                    ? Colors.white
+                    : isCorrect
+                        ? const Color(0xFFb5d6cd)
+                        : Colors.white
                 : isCorrect
                     ? const Color(0xFFb5d6cd)
                     : const Color(0xFFd6a4a3),
@@ -48,7 +54,9 @@ class AnswerTile extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: Radio(
-                  activeColor: Colors.black,
+                  activeColor: isCorrect
+                      ? const Color(0xFF0c594f)
+                      : const Color(0xFFb01800),
                   value: value,
                   groupValue: groutValue,
                   onChanged: selectAnswer,

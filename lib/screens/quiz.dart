@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:waterflow_intern/api/quiz_api.dart';
 import 'package:waterflow_intern/models/quiz.dart';
+import 'package:waterflow_intern/screens/home.dart';
 import 'package:waterflow_intern/widgets/answer_tile.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -53,12 +54,24 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
+  void _nextQuestion() {
+    setState(() {
+      _currentQuestionIndex++;
+      _selectedOption = -1;
+    });
+  }
+
   void _getQuizList() async {
     List<Quiz> questions = await QuizApi.getQuizQuestions();
     setState(() {
       quizQuestions = questions;
       _loading = false;
     });
+  }
+
+  void _finishQuiz() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => const HomeScreen()));
   }
 
   @override
@@ -100,9 +113,9 @@ class _QuizScreenState extends State<QuizScreen> {
                               SizedBox(
                                 width: scrWeidth * 0.15,
                               ),
-                              const Text(
-                                "7/10",
-                                style: TextStyle(
+                              Text(
+                                "${_currentQuestionIndex + 1}/10",
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -135,7 +148,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                   ],
                                 ),
                                 child: Text(
-                                  quizQuestions[0].question,
+                                  quizQuestions[_currentQuestionIndex].question,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
@@ -169,23 +182,32 @@ class _QuizScreenState extends State<QuizScreen> {
                           ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: quizQuestions[0].answerOptions.length,
+                            itemCount: quizQuestions[_currentQuestionIndex]
+                                .answerOptions
+                                .length,
                             itemBuilder: (context, index) {
                               return AnswerTile(
                                 value: index,
-                                selectAnswer: _selectedOption > 0
-                                    ? null
-                                    : (value) {
-                                        setState(() {
-                                          _selectedOption = value ?? -1;
-                                        });
-                                      },
+                                // selectAnswer: _selectedOption > 0
+                                //     ? null
+                                //     :
+                                selectAnswer: (value) {
+                                  if (_selectedOption > -1) {
+                                    return;
+                                  }
+                                  setState(() {
+                                    _selectedOption = value ?? -1;
+                                  });
+                                },
                                 groutValue: _selectedOption,
                                 answerOption:
-                                    quizQuestions[0].answerOptions[index],
-                                isCorrect:
-                                    quizQuestions[0].answerOptions[index] ==
-                                        quizQuestions[0].correctAnswer,
+                                    quizQuestions[_currentQuestionIndex]
+                                        .answerOptions[index],
+                                isCorrect: quizQuestions[_currentQuestionIndex]
+                                        .answerOptions[index] ==
+                                    quizQuestions[_currentQuestionIndex]
+                                        .correctAnswer,
+                                showCorrect: _selectedOption > -1,
                               );
                             },
                           ),
@@ -197,15 +219,17 @@ class _QuizScreenState extends State<QuizScreen> {
                     width: double.infinity,
                     margin: const EdgeInsets.all(20),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: _currentQuestionIndex > 9
+                          ? _finishQuiz
+                          : _nextQuestion,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF0a4f4c),
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 15),
                       ),
-                      child: const Text(
-                        "Next",
-                        style: TextStyle(
+                      child: Text(
+                        _currentQuestionIndex > 9 ? "Finish" : "Next",
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                         ),
