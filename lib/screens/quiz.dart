@@ -21,6 +21,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int _seconds = 60;
   late Timer _quizTimer;
   int _currentQuestionIndex = 0;
+  int _selectedOption = -1;
 
   @override
   void initState() {
@@ -155,8 +156,13 @@ class _QuizScreenState extends State<QuizScreen> {
                       itemCount: 4,
                       itemBuilder: (context, index) {
                         return AnswerTile(
-                          option: widget.quizQuestions[_currentQuestionIndex]
-                              .answerOptions[index],
+                          option: index,
+                          selectAnswer: (value) {
+                            setState(() {
+                              _selectedOption = value ?? -1;
+                            });
+                          },
+                          groutValue: _selectedOption,
                         );
                       },
                     ),

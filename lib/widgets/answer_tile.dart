@@ -4,9 +4,13 @@ class AnswerTile extends StatelessWidget {
   const AnswerTile({
     super.key,
     required this.option,
+    required this.selectAnswer,
+    required this.groutValue,
   });
 
-  final String option;
+  final int option;
+  final void Function(int? selectedOption) selectAnswer;
+  final int groutValue;
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +38,9 @@ class AnswerTile extends StatelessWidget {
               const Spacer(),
               Radio(
                 activeColor: Colors.black,
-                value: 0,
-                groupValue: 0,
-                onChanged: (value) {},
+                value: option,
+                groupValue: groutValue,
+                onChanged: selectAnswer,
               ),
             ],
           ),
