@@ -31,7 +31,7 @@ class AnswerTile extends StatelessWidget {
                 ? Colors.white
                 : isCorrect
                     ? const Color(0xFFb5d6cd)
-                    : Colors.red,
+                    : const Color(0xFFd6a4a3),
             borderRadius: BorderRadius.circular(25),
           ),
           child: Row(
