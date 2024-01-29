@@ -47,6 +47,7 @@ class _QuizScreenState extends State<QuizScreen> {
         if (_seconds == 0) {
           timer.cancel();
           // Handle timer completion, e.g., show a message or perform an action
+          _nextQuestion();
         } else {
           _seconds--;
         }
@@ -55,10 +56,13 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void _nextQuestion() {
+    _quizTimer.cancel();
     setState(() {
       _currentQuestionIndex++;
       _selectedOption = -1;
+      _seconds = 60;
     });
+    _startTimer();
   }
 
   void _getQuizList() async {
@@ -161,10 +165,10 @@ class _QuizScreenState extends State<QuizScreen> {
                                 child: CircularPercentIndicator(
                                   radius: scrWeidth * 0.1,
                                   lineWidth: 10.0,
-                                  percent: 0.8,
-                                  center: const Text(
-                                    '30',
-                                    style: TextStyle(
+                                  percent: _seconds / 60,
+                                  center: Text(
+                                    _seconds.toString(),
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 27,
                                       color: Color(0xFF0e4b4a),
