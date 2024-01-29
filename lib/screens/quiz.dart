@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:waterflow_intern/api/quiz_api.dart';
 import 'package:waterflow_intern/models/quiz.dart';
+import 'package:waterflow_intern/models/result.dart';
 import 'package:waterflow_intern/screens/home.dart';
 import 'package:waterflow_intern/widgets/answer_tile.dart';
 
@@ -26,6 +27,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int _selectedOption = -1;
   List<Quiz> quizQuestions = [];
   bool _loading = true;
+  List<Result> resultSummary = [];
 
   @override
   void initState() {
@@ -56,6 +58,15 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void _nextQuestion() {
+    resultSummary.add(
+      Result(
+        questionIndex: _currentQuestionIndex,
+        question: quizQuestions[_currentQuestionIndex].question,
+        correctAnswer: quizQuestions[_currentQuestionIndex].correctAnswer,
+        selectedAnswer:
+            quizQuestions[_currentQuestionIndex].answerOptions[_selectedOption],
+      ),
+    );
     _quizTimer.cancel();
     setState(() {
       _currentQuestionIndex++;
@@ -74,8 +85,16 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void _finishQuiz() {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => const HomeScreen()));
+    resultSummary.add(
+      Result(
+        questionIndex: _currentQuestionIndex,
+        question: quizQuestions[_currentQuestionIndex].question,
+        correctAnswer: quizQuestions[_currentQuestionIndex].correctAnswer,
+        selectedAnswer:
+            quizQuestions[_currentQuestionIndex].answerOptions[_selectedOption],
+      ),
+    );
+    Navigator.of(context).pop(resultSummary);
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:waterflow_intern/api/quiz_api.dart';
 import 'package:waterflow_intern/models/quiz.dart';
+import 'package:waterflow_intern/models/result.dart';
 import 'package:waterflow_intern/screens/quiz.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,6 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final _nameController = TextEditingController();
   String? _errorText;
   late List<Quiz> quizQuestions;
+  List<Result> resultsSummary = [];
 
   @override
   void initState() {
@@ -51,20 +53,28 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _startQuiz() {
+  void _startQuiz() async {
     // _validateName();
     final bool isValid = _errorText == null;
     if (!isValid) {
       return;
     }
 
-    Navigator.of(context).push(
+    final result = await Navigator.of(context).push<List<Result>>(
       MaterialPageRoute(
         builder: (context) => QuizScreen(
           quizQuestions: quizQuestions,
         ),
       ),
     );
+
+    if (result == null) {
+      return;
+    }
+
+    setState(() {
+      resultsSummary = result;
+    });
   }
 
   @override
