@@ -40,7 +40,9 @@ class SummaryItem extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  resultData.selectedAnswer,
+                  resultData.selectedAnswer == ""
+                      ? "Unanswered"
+                      : resultData.selectedAnswer,
                   style: const TextStyle(
                     color: Color.fromARGB(255, 202, 171, 252),
                   ),

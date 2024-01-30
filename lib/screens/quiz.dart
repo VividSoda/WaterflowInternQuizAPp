@@ -57,13 +57,16 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void _nextQuestion() {
+    print("next clicked");
     resultSummary.add(
       Result(
         questionIndex: _currentQuestionIndex,
         question: quizQuestions[_currentQuestionIndex].question,
         correctAnswer: quizQuestions[_currentQuestionIndex].correctAnswer,
-        selectedAnswer:
-            quizQuestions[_currentQuestionIndex].answerOptions[_selectedOption],
+        selectedAnswer: _selectedOption == -1
+            ? ""
+            : quizQuestions[_currentQuestionIndex]
+                .answerOptions[_selectedOption],
       ),
     );
     _quizTimer.cancel();
@@ -89,8 +92,10 @@ class _QuizScreenState extends State<QuizScreen> {
         questionIndex: _currentQuestionIndex,
         question: quizQuestions[_currentQuestionIndex].question,
         correctAnswer: quizQuestions[_currentQuestionIndex].correctAnswer,
-        selectedAnswer:
-            quizQuestions[_currentQuestionIndex].answerOptions[_selectedOption],
+        selectedAnswer: _selectedOption == -1
+            ? ""
+            : quizQuestions[_currentQuestionIndex]
+                .answerOptions[_selectedOption],
       ),
     );
     Navigator.of(context).pop(resultSummary);
