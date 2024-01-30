@@ -5,7 +5,6 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:waterflow_intern/api/quiz_api.dart';
 import 'package:waterflow_intern/models/quiz.dart';
 import 'package:waterflow_intern/models/result.dart';
-import 'package:waterflow_intern/screens/home.dart';
 import 'package:waterflow_intern/widgets/answer_tile.dart';
 
 class QuizScreen extends StatefulWidget {

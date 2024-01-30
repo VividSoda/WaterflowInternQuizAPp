@@ -4,6 +4,7 @@ import 'package:waterflow_intern/models/quiz.dart';
 import 'package:waterflow_intern/models/result.dart';
 import 'package:waterflow_intern/screens/quiz.dart';
 import 'package:waterflow_intern/screens/result_screen.dart';
+import 'package:waterflow_intern/utils/result_utilities.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _intializeQuizList();
+    ResulUtilities.loadData();
   }
 
   @override
@@ -76,6 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       resultsSummary = result;
     });
+
+    ResulUtilities.storeData(resultsSummary);
   }
 
   @override
@@ -188,7 +192,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (ctx) =>
-                              ResultScreen(resultSummary: resultsSummary),
+                              // ResultScreen(
+                              //   resultSummary: resultsSummary),
+                              const ResultScreen(),
                         ),
                       );
                     },
