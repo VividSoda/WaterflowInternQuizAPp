@@ -22,17 +22,20 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   int _seconds = 60;
   late Timer _quizTimer;
+  // int _currentQuestionIndex = 0;
   int _currentQuestionIndex = 0;
   int _selectedOption = -1;
   List<Quiz> quizQuestions = [];
   bool _loading = true;
   List<Result> resultSummary = [];
+  // List<String> _shuffledAnswerOptions = [];
 
   @override
   void initState() {
     super.initState();
-    _startTimer();
     _getQuizList();
+    _currentQuestionIndex = 0;
+    _startTimer();
   }
 
   @override
@@ -80,6 +83,9 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void _getQuizList() async {
     List<Quiz> questions = await QuizApi.getQuizQuestions();
+    for (final question in questions) {
+      question.shuffleOptions();
+    }
     setState(() {
       quizQuestions = questions;
       _loading = false;
@@ -206,6 +212,38 @@ class _QuizScreenState extends State<QuizScreen> {
                           SizedBox(
                             height: scrHeight * 0.07,
                           ),
+                          // ListView.builder(
+                          //   shrinkWrap: true,
+                          //   physics: const NeverScrollableScrollPhysics(),
+                          //   itemCount: quizQuestions[_currentQuestionIndex]
+                          //       .answerOptions
+                          //       .length,
+                          //   itemBuilder: (context, index) {
+                          //     return AnswerTile(
+                          //       value: index,
+                          //       // selectAnswer: _selectedOption > 0
+                          //       //     ? null
+                          //       //     :
+                          //       selectAnswer: (value) {
+                          //         if (_selectedOption > -1) {
+                          //           return;
+                          //         }
+                          //         setState(() {
+                          //           _selectedOption = value ?? -1;
+                          //         });
+                          //       },
+                          //       groutValue: _selectedOption,
+                          //       answerOption:
+                          //           quizQuestions[_currentQuestionIndex]
+                          //               .answerOptions[index],
+                          //       isCorrect: quizQuestions[_currentQuestionIndex]
+                          //               .answerOptions[index] ==
+                          //           quizQuestions[_currentQuestionIndex]
+                          //               .correctAnswer,
+                          //       showCorrect: _selectedOption > -1,
+                          //     );
+                          //   },
+                          // ),
                           ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),

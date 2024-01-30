@@ -11,9 +11,12 @@ class Quiz {
   final String correctAnswer;
   final String id;
 
-  List<String> get shuffledOptions {
-    final List<String> shuffledList = List.of(answerOptions);
-    shuffledList.shuffle();
-    return shuffledList;
+  // List<String> get shuffledOptions {
+  //   final List<String> shuffledList = List.of(answerOptions);
+  //   shuffledList.shuffle();
+  //   return shuffledList;
+  // }
+  void shuffleOptions() {
+    answerOptions.shuffle();
   }
 }
