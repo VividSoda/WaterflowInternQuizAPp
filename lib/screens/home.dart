@@ -3,6 +3,7 @@ import 'package:waterflow_intern/api/quiz_api.dart';
 import 'package:waterflow_intern/models/quiz.dart';
 import 'package:waterflow_intern/models/result.dart';
 import 'package:waterflow_intern/screens/quiz.dart';
+import 'package:waterflow_intern/screens/result_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -183,7 +184,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) =>
+                              ResultScreen(resultSummary: resultsSummary),
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF75bda7),
                       foregroundColor: Colors.white,
