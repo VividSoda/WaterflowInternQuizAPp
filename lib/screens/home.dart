@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _startQuiz() async {
-    // _validateName();
+    _validateName();
     final bool isValid = _errorText == null;
     if (!isValid) {
       return;
